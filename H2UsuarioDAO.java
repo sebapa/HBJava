@@ -55,13 +55,43 @@ public class H2UsuarioDAO implements UsuarioDAO{
 
 	@Override
 	public void modificar(Usuario v) {
-		// TODO Auto-generated method stub
+		Connection c = DBManager.conectar();
+		String query = "UPDATE USUARIO SET NOMBRE ='"+ v.getNombre() + "', APELLIDO ='"+ v.getApellido() + "' where ID = "+ v.getId();
+		try {
+			Statement statement = c.createStatement();
+			statement.executeUpdate(query);
+			statement.close();
+		}catch (SQLException e){
+			e.printStackTrace();
+		}finally {
+			try {
+				c.close();
+		}catch (SQLException e){
+				e.printStackTrace();
+			}			
+		}
 		
 	}
 
+
 	@Override
 	public void eliminar(Usuario v) {
-		// TODO Auto-generated method stub
+		Connection c = DBManager.conectar();
+		String query = "DELETE FROM USUARIO where ID = "+ v.getId();
+		try {
+			Statement statement = c.createStatement();
+			statement.executeUpdate(query);
+			statement.close();
+		}catch (SQLException e){
+			e.printStackTrace();
+		}finally {
+			try {
+				c.close();
+		}catch (SQLException e){
+				e.printStackTrace();
+			}			
+		}
+		
 		
 	}
 }

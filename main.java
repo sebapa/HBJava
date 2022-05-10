@@ -5,9 +5,9 @@ public class main {
 		Usuario nuevoUsuario = new Usuario();
 		nuevoUsuario.setId(31563322);
 		nuevoUsuario.setNombre("Armando");
-		nuevoUsuario.setApellido("Linares");
+		nuevoUsuario.setApellido("Linar");
 		UsuarioDAO cons = new H2UsuarioDAO();
-		cons.insertar(nuevoUsuario);
+		cons.eliminar(nuevoUsuario);
 		cons.listar();
 
 	}
