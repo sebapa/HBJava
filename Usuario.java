@@ -1,9 +1,15 @@
 
 public class Usuario {
+	
 	private int id;
 	private String nombre;
 	private String apellido;
 	
+    public Usuario(Integer id, String nom, String ape) {
+        this.id = id;
+        this.nombre = nom;
+        this.apellido = ape;
+    }
 	
 	public int getId() {
 		return id;

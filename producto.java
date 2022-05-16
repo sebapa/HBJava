@@ -1,5 +1,5 @@
 
-public class producto {
+public class Producto {
 	private int numero_cuenta;
 	private String tipo;
 	private Float saldo;
