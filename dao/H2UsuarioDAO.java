@@ -1,3 +1,4 @@
+package dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -5,35 +6,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import db.DBManager;
+import entidades.Usuario;
+
 public class H2UsuarioDAO implements UsuarioDAO{
 
-	@Override
-//	public void listar() {
-//		Connection c = DBManager.conectar();
-//		try {
-//			String query = "select * from USUARIO";
-//			Statement statement = c.createStatement();
-//			ResultSet set = statement.executeQuery(query);
-//			while(set.next()) {
-//				int id = set.getInt("id");
-//				String nom = set.getString("nombre");
-//				String ape = set.getString("apellido");
-//				System.out.println(id + " " + " " + nom + " " + ape);
-//				}
-//			set.close();
-//			statement.close();
-//		}catch (SQLException e){
-//				e.printStackTrace();
-//			
-//		}finally {
-//			try {
-//					c.close();
-//			}catch (SQLException e){
-//					e.printStackTrace();
-//			}
-//		}
-//		
-//	}
+
     public List<Usuario> listar() {
     	List<Usuario> resultado = new ArrayList<>();
         String query = "SELECT * FROM usuario";

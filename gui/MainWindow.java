@@ -1,18 +1,28 @@
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import dao.H2UsuarioDAO;
+import dao.UsuarioDAO;
+import entidades.Usuario;
+
 
 public class MainWindow extends JFrame {
 	
 	UsuarioDAO consultaDB = new H2UsuarioDAO();
+	
+	private JFrame frame;
 	private TablaInfoUsuarios molde; 
 	private JTable tablaUsuarios; 
 	private JScrollPane scrollPaneParaTabla;
@@ -26,7 +36,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void generarVentana () {
-		JFrame frame = new JFrame("Home Banking Principal");
+		frame = new JFrame("Home Banking Principal");
 		frame.setVisible(true);
 //		frame.setSize(300, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,59 +72,53 @@ public class MainWindow extends JFrame {
 		// Botonera de tabla
 		
 		JButton botonInsertar = new JButton("Insertar");
+		botonInsertar.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new insertarDialog(frame, "Insertar", ModalityType.APPLICATION_MODAL);
+						recargarTabla();
+					} 	
+				}
+				);
+		
 		JButton botonEliminar = new JButton("Eliminar");
-		JButton botonLimpiar = new JButton("Limpiar");
+		botonEliminar.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int filaSeleccionada = tablaUsuarios.getSelectedRow();
+						Usuario seleccionado = molde.getContenido().get(filaSeleccionada);
+						UsuarioDAO cons = new H2UsuarioDAO();
+						cons.eliminar(seleccionado);
+						recargarTabla();
+					} 	
+				}
+				);
+		JButton botonModificar = new JButton("Modificar");
+		botonModificar.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int filaSeleccionada = tablaUsuarios.getSelectedRow();
+						Usuario seleccionado = molde.getContenido().get(filaSeleccionada);
+						new modificarDialog(seleccionado);
+						recargarTabla();
+					} 	
+				}
+				);
 		
 		panelBotones.add(botonInsertar);
 		panelBotones.add(botonEliminar);
-		panelBotones.add(botonLimpiar);
+		panelBotones.add(botonModificar);
+
 		
 		frame.pack();
 	}
 	
-	private void ventanaInsertar() {
-		JFrame frame = new JFrame("Nuevo usuario");
-		frame.setVisible(true);
-
-		frame.setBounds(100, 100, 210, 170);
-		
-		JPanel panel = new JPanel();
-		frame.add(panel);
-		frame.getContentPane().add(panel);
-		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		setContentPane(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-//		
-		JLabel labelDNI = new JLabel("DNI");
-		panel.add(labelDNI);
-		
-		JTextField textDNI = new JTextField();
-		panel.add(textDNI);
-		textDNI.setColumns(10);
-		
-		JLabel labelNombre = new JLabel("Nombre");
-		panel.add(labelNombre);
-		
-		JTextField textNombre = new JTextField();
-		panel.add(textNombre);
-		textNombre.setColumns(10);
-		
-		JLabel labelApellido = new JLabel("Apellido");
-		panel.add(labelApellido);
-		
-		JTextField textApellido = new JTextField();
-		panel.add(textApellido);
-		textApellido.setColumns(10);
-		
-		JButton botonAceptar = new JButton("Aceptar");
-		panel.add(botonAceptar);
-		
-		JButton botonCancelar = new JButton("Cancelar");
-		panel.add(botonCancelar);
-
-		frame.pack();
+	private void recargarTabla() {
+		List<Usuario> listaTodosLosUsuarios = consultaDB.listar();
+		molde.setContenido(listaTodosLosUsuarios);
+		molde.fireTableDataChanged();
 	}
-	
+
 	
 	private void botoneraPrincipal() {
 

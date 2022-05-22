@@ -1,3 +1,4 @@
+package entidades;
 
 public class Producto {
 	private int numero_cuenta;

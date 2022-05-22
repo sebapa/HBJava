@@ -1,4 +1,7 @@
+package dao;
 import java.util.List;
+
+import entidades.Usuario;
 
 public interface DAO <I>{
 

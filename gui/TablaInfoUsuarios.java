@@ -1,8 +1,11 @@
+package gui;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import entidades.Usuario;
 
 public class TablaInfoUsuarios extends AbstractTableModel {
 
