@@ -1,11 +1,10 @@
-import java.util.List;
+package main;
 
-import entidades.Usuario;
 import gui.MainWindow;
 
 public class main {
 	public static void main (String[] args) {
-		Usuario nuevoUsuario = new Usuario(11454332, "Martin", "Raolo");
+//		Usuario nuevoUsuario = new Usuario(11454332, "Martin", "Raolo");
 		
 //		UsuarioDAO cons = new H2UsuarioDAO();
 //		cons.insertar(nuevoUsuario);

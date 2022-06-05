@@ -7,18 +7,22 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import dao.H2UsuarioDAO;
-import dao.UsuarioDAO;
+import Excepciones.ServicioException;
 import entidades.Usuario;
+import servicios.UsuarioService;
 
 public class insertarDialog extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JDialog insertar;
-
 	
 	public insertarDialog(JFrame frame, String titulo, ModalityType opcion) {
 		generarVentanaInsertar(frame, titulo, opcion);
@@ -68,9 +72,15 @@ public class insertarDialog extends JDialog {
 						Integer documento = Integer.parseInt (textDNI.getText());
 						String nombre = textNombre.getText();
 						String apellido = textApellido.getText();
-						Usuario nuevoUsuario = new Usuario(documento, nombre, apellido);
-						UsuarioDAO cons = new H2UsuarioDAO();
-						cons.insertar(nuevoUsuario);
+						Usuario nuevo = new Usuario(documento, nombre, apellido);
+						
+						UsuarioService us = new UsuarioService();
+						try {
+							us.nuevoUsuario(nuevo);
+							JOptionPane.showMessageDialog(panel, "Inserto nuevo usuario");
+						} catch (ServicioException e1) {
+							JOptionPane.showMessageDialog(panel, "ERROR al intentar crear nuevo usuario");
+						}		
 
 						insertar.dispose(); 
 					} 	

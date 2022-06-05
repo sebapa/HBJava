@@ -1,26 +1,23 @@
 package gui;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dialog.ModalityType;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import dao.H2UsuarioDAO;
-import dao.UsuarioDAO;
+import Excepciones.ServicioException;
 import entidades.Usuario;
+import servicios.UsuarioService;
 
 
 public class MainWindow extends JFrame {
 	
-	UsuarioDAO consultaDB = new H2UsuarioDAO();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	UsuarioService us = new UsuarioService();
 	
 	private JFrame frame;
 	private TablaInfoUsuarios molde; 
@@ -30,9 +27,6 @@ public class MainWindow extends JFrame {
 	
 	public MainWindow() {
 		generarVentana();
-//		cargarComponentes();
-//		ventanaInsertar();
-	
 	}
 	
 	private void generarVentana () {
@@ -63,14 +57,9 @@ public class MainWindow extends JFrame {
 		panel.add(tablaUsuarios);
 		scrollPaneParaTabla = new JScrollPane(tablaUsuarios);
 		panel.add(scrollPaneParaTabla);
-		
-		List<Usuario> listaTodosLosUsuarios = consultaDB.listar();
 
-		molde.setContenido(listaTodosLosUsuarios);
-		molde.fireTableDataChanged();
-		
-		// Botonera de tabla
-		
+		recargarTabla();
+
 		JButton botonInsertar = new JButton("Insertar");
 		botonInsertar.addActionListener(
 				new ActionListener() {
@@ -87,12 +76,18 @@ public class MainWindow extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						int filaSeleccionada = tablaUsuarios.getSelectedRow();
 						Usuario seleccionado = molde.getContenido().get(filaSeleccionada);
-						UsuarioDAO cons = new H2UsuarioDAO();
-						cons.eliminar(seleccionado);
+						UsuarioService us = new UsuarioService();
+						try {
+							us.eliminarUsuario(seleccionado);
+							JOptionPane.showMessageDialog(panel, "Se elimino usuario");
+						} catch (ServicioException e1) {
+							JOptionPane.showMessageDialog(panel, "ERROR al intentar eliminar");
+							}
 						recargarTabla();
-					} 	
-				}
-				);
+						} 	
+				} 	
+
+		);
 		JButton botonModificar = new JButton("Modificar");
 		botonModificar.addActionListener(
 				new ActionListener() {
@@ -114,15 +109,21 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void recargarTabla() {
-		List<Usuario> listaTodosLosUsuarios = consultaDB.listar();
+		List<Usuario> listaTodosLosUsuarios = null;
+		try {
+			listaTodosLosUsuarios = us.mostrarUsuarios();
+		} catch (ServicioException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		molde.setContenido(listaTodosLosUsuarios);
 		molde.fireTableDataChanged();
 	}
 
 	
-	private void botoneraPrincipal() {
-
-	}
+//	private void botoneraPrincipal() {
+//
+//	}
 	
 	
 }

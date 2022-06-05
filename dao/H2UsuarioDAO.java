@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import Excepciones.DAOException;
 import db.DBManager;
 import entidades.Usuario;
 
@@ -47,7 +48,7 @@ public class H2UsuarioDAO implements UsuarioDAO{
     }
 
 	@Override
-	public void insertar(Usuario v) {
+	public void insertar(Usuario v) throws DAOException{
 		Connection c = DBManager.conectar();
 		String query = "insert into USUARIO values ("+ v.getId() +",'"+ v.getNombre() + "','"+ v.getApellido() + "')";
 		try {

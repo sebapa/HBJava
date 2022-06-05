@@ -9,6 +9,10 @@ import entidades.Usuario;
 
 public class TablaInfoUsuarios extends AbstractTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String[] nombresColumnas = {"DNI", "Nombre", "Apellido"};
 	private Class[] tiposColumnas = { Integer.class, String.class, String.class};
 	private List<Usuario> contenido;

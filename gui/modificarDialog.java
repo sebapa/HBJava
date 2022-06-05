@@ -7,13 +7,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import dao.H2UsuarioDAO;
-import dao.UsuarioDAO;
+import Excepciones.ServicioException;
 import entidades.Usuario;
+import servicios.UsuarioService;
 
 public class modificarDialog {
 	
@@ -33,7 +34,6 @@ public class modificarDialog {
 		modificar = new JDialog();
 		modificar.setModal(true);
 		modificar.setTitle("Modificar");
-
 		modificar.setBounds(100, 100, 210, 170);
 		
 		JPanel panel = new JPanel();
@@ -73,9 +73,15 @@ public class modificarDialog {
 						Integer documento = Integer.parseInt (textDNI.getText());
 						String nombre = textNombre.getText();
 						String apellido = textApellido.getText();
-						Usuario nuevoUsuario = new Usuario(documento, nombre, apellido);
-						UsuarioDAO cons = new H2UsuarioDAO();
-						cons.modificar(nuevoUsuario);
+						Usuario nuevo = new Usuario(documento, nombre, apellido);
+						
+						UsuarioService us = new UsuarioService();
+						try {
+							us.modificarUsuario(nuevo);
+							JOptionPane.showMessageDialog(panel, "Se modifico usuario");
+						} catch (ServicioException e1) {
+							JOptionPane.showMessageDialog(panel, "Error al modificar usuario");
+						}
 						modificar.dispose(); 
 					} 	
 				}
