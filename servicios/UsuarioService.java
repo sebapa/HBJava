@@ -14,7 +14,6 @@ public class UsuarioService {
 
 	public void nuevoUsuario (Usuario user) throws ServicioException {
 		
-//		UsuarioDAO ud = new H2UsuarioDAO();
 		try {
 			ud.insertar(user);
 		} catch (DAOException e) {
@@ -24,7 +23,6 @@ public class UsuarioService {
 		
 	public void modificarUsuario (Usuario user) throws ServicioException {
 		
-//		UsuarioDAO ud = new H2UsuarioDAO();
 		try {
 			ud.modificar(user);
 		} catch (DAOException e) {
@@ -34,7 +32,6 @@ public class UsuarioService {
 		
 	public void eliminarUsuario (Usuario user) throws ServicioException {
 		
-//		UsuarioDAO ud = new H2UsuarioDAO();
 		try {
 			ud.eliminar(user);
 		} catch (DAOException e) {

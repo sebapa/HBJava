@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class DBManager {
 
 	private static final String DBUrl = "jdbc:h2:/Users/sebamac/eclipse-workspace/HomeBanking";
@@ -20,8 +22,8 @@ public class DBManager {
 		try {
 		c = DriverManager.getConnection(DBUrl, DBUser, DBPass);
 		} catch (SQLException e) {
-		     e.printStackTrace();
-		     System.exit(0);
+			JOptionPane.showMessageDialog(null, "ERROR de DB" +e);
+		    System.exit(0);
 		}
 		return c;
 	}

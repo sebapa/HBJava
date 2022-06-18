@@ -8,15 +8,20 @@ import java.util.List;
 
 import Excepciones.DAOException;
 import db.DBManager;
+import db.QueryManager;
 import entidades.Usuario;
 
 public class H2UsuarioDAO implements UsuarioDAO{
 
 
-    public List<Usuario> listar() {
+    public List<Usuario> listar() throws DAOException {
+    	
     	List<Usuario> resultado = new ArrayList<>();
-        String query = "SELECT * FROM usuario";
+        
+    	String query = "SELECT * FROM usuario";
+    	
         Connection c = DBManager.conectar();
+        
         try {
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
@@ -28,20 +33,17 @@ public class H2UsuarioDAO implements UsuarioDAO{
 				String ape = rs.getString("apellido");
                 Usuario u = new Usuario(id, nom, ape);
                 resultado.add(u);
-//                System.out.println(resultado);
 
             }
         } catch (SQLException e) {
-            try {
-                c.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
+			System.out.println("error dao sql e - CreateStatement: " + e.getMessage());
+			throw new DAOException("Error de SQL", e);
         } finally {
             try {
                 c.close();
             } catch (SQLException e1) {
-                e1.printStackTrace();
+    			System.out.println("error dao sql e - CreateStatement: " + e1.getMessage());
+    			throw new DAOException("Error de SQL", e1);
             }
         }
         return resultado;
@@ -49,63 +51,25 @@ public class H2UsuarioDAO implements UsuarioDAO{
 
 	@Override
 	public void insertar(Usuario v) throws DAOException{
-		Connection c = DBManager.conectar();
 		String query = "insert into USUARIO values ("+ v.getId() +",'"+ v.getNombre() + "','"+ v.getApellido() + "')";
-		try {
-			Statement statement = c.createStatement();
-			statement.executeUpdate(query);
-			statement.close();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}finally {
-			try {
-				c.close();
-		}catch (SQLException e){
-				e.printStackTrace();
-			}			
-		}
-		
+		QueryManager.EjecutarUpdate(query);
+	
 	}
 
 	@Override
-	public void modificar(Usuario v) {
+	public void modificar(Usuario v) throws DAOException {
 		Connection c = DBManager.conectar();
 		String query = "UPDATE USUARIO SET NOMBRE ='"+ v.getNombre() + "', APELLIDO ='"+ v.getApellido() + "' where ID = "+ v.getId();
-		try {
-			Statement statement = c.createStatement();
-			statement.executeUpdate(query);
-			statement.close();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}finally {
-			try {
-				c.close();
-		}catch (SQLException e){
-				e.printStackTrace();
-			}			
-		}
-		
+		QueryManager.EjecutarUpdate(query);
+
 	}
 
 
 	@Override
-	public void eliminar(Usuario v) {
+	public void eliminar(Usuario v) throws DAOException{
 		Connection c = DBManager.conectar();
 		String query = "DELETE FROM USUARIO where ID = "+ v.getId();
-		try {
-			Statement statement = c.createStatement();
-			statement.executeUpdate(query);
-			statement.close();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}finally {
-			try {
-				c.close();
-		}catch (SQLException e){
-				e.printStackTrace();
-			}			
-		}
-		
-		
+		QueryManager.EjecutarUpdate(query);
+	
 	}
 }
