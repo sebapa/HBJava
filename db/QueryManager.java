@@ -26,6 +26,13 @@ public class QueryManager {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "ERROR dao sql e - CreateStatement: "+ e.getMessage());
 			throw new DAOException("Error de SQL", e);
+		}finally {
+			try {
+				c.close();
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, "ERROR dao sql e - CreateStatement: "+ e.getMessage());
+				throw new DAOException(e.getMessage());
+			}
 		}
 
 	}

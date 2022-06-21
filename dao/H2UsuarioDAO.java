@@ -58,7 +58,6 @@ public class H2UsuarioDAO implements UsuarioDAO{
 
 	@Override
 	public void modificar(Usuario v) throws DAOException {
-		Connection c = DBManager.conectar();
 		String query = "UPDATE USUARIO SET NOMBRE ='"+ v.getNombre() + "', APELLIDO ='"+ v.getApellido() + "' where ID = "+ v.getId();
 		QueryManager.EjecutarUpdate(query);
 
@@ -67,7 +66,6 @@ public class H2UsuarioDAO implements UsuarioDAO{
 
 	@Override
 	public void eliminar(Usuario v) throws DAOException{
-		Connection c = DBManager.conectar();
 		String query = "DELETE FROM USUARIO where ID = "+ v.getId();
 		QueryManager.EjecutarUpdate(query);
 	

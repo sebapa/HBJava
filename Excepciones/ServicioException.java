@@ -2,6 +2,11 @@ package Excepciones;
 
 public class ServicioException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ServicioException() {
 		super();
 		// TODO Auto-generated constructor stub
