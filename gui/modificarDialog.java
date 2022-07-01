@@ -70,19 +70,22 @@ public class modificarDialog {
 		botonAceptar.addActionListener(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Integer documento = Integer.parseInt (textDNI.getText());
-						String nombre = textNombre.getText();
-						String apellido = textApellido.getText();
-						Usuario nuevo = new Usuario(documento, nombre, apellido);
-						
-						UsuarioService us = new UsuarioService();
-						try {
-							us.modificarUsuario(nuevo);
-							JOptionPane.showMessageDialog(panel, "Se modifico usuario");
-						} catch (ServicioException e1) {
-							JOptionPane.showMessageDialog(panel, "Error al modificar usuario");
+						if (!textNombre.getText().isEmpty() && !textApellido.getText().isEmpty()){
+							Integer documento = Integer.parseInt (textDNI.getText());
+							String nombre = textNombre.getText();
+							String apellido = textApellido.getText();
+							Usuario nuevo = new Usuario(documento, nombre, apellido);
+							
+							UsuarioService us = new UsuarioService();
+							try {
+								us.modificarUsuario(nuevo);
+							} catch (ServicioException e1) {
+								JOptionPane.showMessageDialog(panel, "Error al modificar usuario");
+							}
+							modificar.dispose(); 
+						}else {
+							JOptionPane.showMessageDialog(panel, "Complete los campos");
 						}
-						modificar.dispose(); 
 					} 	
 				}
 				);

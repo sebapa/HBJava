@@ -2,6 +2,8 @@ package servicios;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import Excepciones.DAOException;
 import Excepciones.ServicioException;
 import dao.H2UsuarioDAO;
@@ -17,6 +19,7 @@ public class UsuarioService {
 		try {
 			ud.insertar(user);
 		} catch (DAOException e) {
+			JOptionPane.showMessageDialog(null, "ERROR de ServicioException: " +e);
 			throw new ServicioException(e.getMessage());
 		}
 	}
@@ -26,6 +29,7 @@ public class UsuarioService {
 		try {
 			ud.modificar(user);
 		} catch (DAOException e) {
+			JOptionPane.showMessageDialog(null, "ERROR de ServicioException: " +e);
 			throw new ServicioException(e.getMessage());
 		}
 	}
@@ -35,6 +39,7 @@ public class UsuarioService {
 		try {
 			ud.eliminar(user);
 		} catch (DAOException e) {
+			JOptionPane.showMessageDialog(null, "ERROR de ServicioException: " +e);
 			throw new ServicioException(e.getMessage());
 		}
 	}
@@ -46,7 +51,7 @@ public class UsuarioService {
 			usuarios = ud.listar();
 			return usuarios;
 		} catch (DAOException e) {
-			System.out.println("error servicio sql e : " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "ERROR de ServicioException: " +e);
 			throw new ServicioException("Error de Servicio", e);
 		}
 	}

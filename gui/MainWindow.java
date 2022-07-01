@@ -74,31 +74,40 @@ public class MainWindow extends JFrame {
 		botonEliminar.addActionListener(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int filaSeleccionada = tablaUsuarios.getSelectedRow();
-						Usuario seleccionado = molde.getContenido().get(filaSeleccionada);
-						UsuarioService us = new UsuarioService();
-						try {
-							us.eliminarUsuario(seleccionado);
-							JOptionPane.showMessageDialog(panel, "Se elimino usuario");
-						} catch (ServicioException e1) {
-							JOptionPane.showMessageDialog(panel, "ERROR al intentar eliminar");
-							}
-						recargarTabla();
-						} 	
-				} 	
+						if (tablaUsuarios.getSelectedRow() != -1) {
+							int filaSeleccionada = tablaUsuarios.getSelectedRow();
+							Usuario seleccionado = molde.getContenido().get(filaSeleccionada);
+							UsuarioService us = new UsuarioService();
+							try {
+								us.eliminarUsuario(seleccionado);
+							} catch (ServicioException e1) {
+								JOptionPane.showMessageDialog(panel, "ERROR al intentar eliminar");
+								}
+							recargarTabla();
+						}
+						else {
+							JOptionPane.showMessageDialog(panel, "Seleccione elemento de la tabla");
+						}
+						}
+					}
+				
 
 		);
 		JButton botonModificar = new JButton("Modificar");
 		botonModificar.addActionListener(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int filaSeleccionada = tablaUsuarios.getSelectedRow();
-						Usuario seleccionado = molde.getContenido().get(filaSeleccionada);
-						new modificarDialog(seleccionado);
-						recargarTabla();
-					} 	
-				}
-				);
+						if (tablaUsuarios.getSelectedRow() != -1) {
+							int filaSeleccionada = tablaUsuarios.getSelectedRow();
+							Usuario seleccionado = molde.getContenido().get(filaSeleccionada);
+							new modificarDialog(seleccionado);
+							recargarTabla();
+						}
+						else {
+							JOptionPane.showMessageDialog(panel, "Seleccione elemento de la tabla");
+						} 	
+					}
+				});
 		
 		panelBotones.add(botonInsertar);
 		panelBotones.add(botonEliminar);

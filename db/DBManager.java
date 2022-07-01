@@ -22,7 +22,8 @@ public class DBManager {
 		try {
 		c = DriverManager.getConnection(DBUrl, DBUser, DBPass);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "ERROR de DB" +e);
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "ERROR de DB: " +e);
 		    System.exit(0);
 		}
 		return c;

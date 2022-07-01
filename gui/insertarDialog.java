@@ -69,20 +69,24 @@ public class insertarDialog extends JDialog {
 		botonAceptar.addActionListener(
 				new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Integer documento = Integer.parseInt (textDNI.getText());
-						String nombre = textNombre.getText();
-						String apellido = textApellido.getText();
-						Usuario nuevo = new Usuario(documento, nombre, apellido);
+						if (!textDNI.getText().isEmpty() && !textNombre.getText().isEmpty() && !textApellido.getText().isEmpty()){
+							Integer documento = Integer.parseInt (textDNI.getText());
+							String nombre = textNombre.getText();
+							String apellido = textApellido.getText();
+							Usuario nuevo = new Usuario(documento, nombre, apellido);
+							UsuarioService us = new UsuarioService();
+							try {
+								us.nuevoUsuario(nuevo);
+								
+							} catch (ServicioException e1) {
+								JOptionPane.showMessageDialog(panel, "ERROR al intentar crear nuevo usuario");
+							}		
+	
+							insertar.dispose(); 
+						}else {
+							JOptionPane.showMessageDialog(panel, "Complete los campos");
+						}
 						
-						UsuarioService us = new UsuarioService();
-						try {
-							us.nuevoUsuario(nuevo);
-							JOptionPane.showMessageDialog(panel, "Inserto nuevo usuario");
-						} catch (ServicioException e1) {
-							JOptionPane.showMessageDialog(panel, "ERROR al intentar crear nuevo usuario");
-						}		
-
-						insertar.dispose(); 
 					} 	
 				}
 				);
